@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HotelManagementServiceApiApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(HotelManagementServiceApiApplication.class, args);
+		System.out.println("Project Started");
 	}
 
 }
