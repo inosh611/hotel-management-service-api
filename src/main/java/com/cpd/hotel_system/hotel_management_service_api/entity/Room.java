@@ -36,5 +36,5 @@ public class Room {
     private List<Facility> facilities;
 
     @OneToMany(mappedBy = "room")
-    private List<Image> images;
+    private List<RoomImage> roomImages;
 }
