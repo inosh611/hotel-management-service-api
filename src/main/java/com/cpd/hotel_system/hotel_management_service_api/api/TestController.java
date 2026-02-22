@@ -1,4 +1,4 @@
-package com.cpd.hotel_system.hotel_management_service_api.controllers;
+package com.cpd.hotel_system.hotel_management_service_api.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -21,5 +21,5 @@ public class ResponseHotelDto {
     private String hotelName;
     private int starRating;
     private BigDecimal startingForm;
-    private List<ResponseBranchDto> branch;
+    private List<ResponseBranchDto> branches;
 }

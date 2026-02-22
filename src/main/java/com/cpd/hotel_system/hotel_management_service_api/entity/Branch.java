@@ -2,11 +2,17 @@ package com.cpd.hotel_system.hotel_management_service_api.entity;
 
 import com.cpd.hotel_system.hotel_management_service_api.utility.enums.BranchType;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "branch")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Branch {
     @Id
     @Column(name = "branch_id")
@@ -31,4 +37,6 @@ public class Branch {
 
     @OneToMany(mappedBy = "branch")
     private List<Room> rooms;
+
+
 }
