@@ -13,11 +13,13 @@ import com.cpd.hotel_system.hotel_management_service_api.repo.HotelRepo;
 import com.cpd.hotel_system.hotel_management_service_api.service.HotelService;
 import com.cpd.hotel_system.hotel_management_service_api.util.ByteCodeHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -53,12 +55,30 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public ResponseHotelDto findById(String hotelId) {
-        return null;
+        Hotel selectedHotel =  hotelRepo.findById(hotelId).orElseThrow(()->new EntryNotFoundException("Hotel not found"));
+        try {
+            return toResponseHotelDto(selectedHotel);
+        } catch (SQLException e) {
+            throw new EntryNotFoundException("Hotel not found");
+        }
+
     }
 
     @Override
     public HotelPaginateResponseDto findAll(int page, int size, String searchText) {
-        return null;
+        return HotelPaginateResponseDto.builder()
+                .dataCount(hotelRepo.countAllHotels(searchText))
+                .dataList(
+                        hotelRepo.searchAllHotels(searchText, PageRequest.of(page, size))
+                                .stream().map(e -> {
+                                    try {
+                                        return toResponseHotelDto(e);
+                                    } catch (SQLException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                }).collect(Collectors.toList())
+                ).build();
+
     }
 
     //mapStruct , moddelMappers use krannath puluwan
@@ -76,6 +96,7 @@ public class HotelServiceImpl implements HotelService {
                         .startingFrom(dto.getStartingFrom())
                         .build();
     }
+
     private ResponseHotelDto toResponseHotelDto(Hotel hotel) throws SQLException {
         return hotel==null?null:
                 ResponseHotelDto.builder()
@@ -101,6 +122,5 @@ public class HotelServiceImpl implements HotelService {
                         .branchType(branch.getBranchType())
                         .build();
     }
-
 
 }
